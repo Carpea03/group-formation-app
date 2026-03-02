@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { isAdminRequest } from '../../../../lib/auth';
-import { getRedisClient } from '../../../../lib/redis';
+import { isAdminRequest } from '../../../lib/auth';
+import { getRedisClient } from '../../../lib/redis';
 
 export async function POST(request) {
   if (!isAdminRequest(request)) {

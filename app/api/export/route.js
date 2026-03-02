@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { isAdminRequest } from '../../../../lib/auth';
-import { getRedisClient } from '../../../../lib/redis';
+import { isAdminRequest } from '../../../lib/auth';
+import { getRedisClient } from '../../../lib/redis';
 
 function escapeCsv(value) {
   if (value === null || value === undefined) return '';

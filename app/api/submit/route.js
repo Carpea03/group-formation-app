@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getRedisClient } from '../../../../lib/redis';
+import { getRedisClient } from '../../../lib/redis';
 
 function validateSubmission(data) {
   if (!data || typeof data !== 'object') return 'Invalid request payload.';

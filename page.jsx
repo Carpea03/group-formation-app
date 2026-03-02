@@ -159,8 +159,6 @@ export default function SurveyPage() {
   const [form, setForm] = useState({
     // Step 1
     fullName: '',
-    studentId: '',
-    email: '',
     // Step 2
     aiExperience: '',
     aiTools: [],
@@ -185,8 +183,6 @@ export default function SurveyPage() {
     const newErrors = {};
     if (step === 1) {
       if (!form.fullName.trim()) newErrors.fullName = 'Please enter your full name.';
-      if (!form.studentId.trim()) newErrors.studentId = 'Please enter your student ID.';
-      if (!form.email.trim() || !form.email.includes('@')) newErrors.email = 'Please enter a valid email address.';
     }
     if (step === 2) {
       if (!form.aiExperience) newErrors.aiExperience = 'Please select your experience level.';
@@ -286,7 +282,7 @@ export default function SurveyPage() {
           <div>
             <h2 className="text-xl mb-1" style={{ color: '#140F50', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}>About You</h2>
             <p className="mb-6 text-sm" style={{ color: '#6B6490', fontFamily: 'Georgia, serif' }}>
-              This information helps us identify you and communicate group assignments.
+              Please provide your name. No student ID or email is collected in this form.
             </p>
 
             <div className="space-y-5">
@@ -304,33 +300,6 @@ export default function SurveyPage() {
                 {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
               </div>
 
-              <div>
-                <label className="block mb-1.5 text-sm font-bold" style={{ fontFamily: 'Arial, sans-serif', color: '#140F50' }}>
-                  Student ID <span style={{ color: '#856BFF' }}>*</span>
-                </label>
-                <input
-                  className="au-input"
-                  type="text"
-                  placeholder="e.g. a1234567"
-                  value={form.studentId}
-                  onChange={(e) => update('studentId', e.target.value)}
-                />
-                {errors.studentId && <p className="text-red-500 text-xs mt-1">{errors.studentId}</p>}
-              </div>
-
-              <div>
-                <label className="block mb-1.5 text-sm font-bold" style={{ fontFamily: 'Arial, sans-serif', color: '#140F50' }}>
-                  University email <span style={{ color: '#856BFF' }}>*</span>
-                </label>
-                <input
-                  className="au-input"
-                  type="email"
-                  placeholder="e.g. a1234567@adelaide.edu.au"
-                  value={form.email}
-                  onChange={(e) => update('email', e.target.value)}
-                />
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-              </div>
             </div>
           </div>
         )}

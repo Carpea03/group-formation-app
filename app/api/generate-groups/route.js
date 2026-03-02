@@ -36,7 +36,6 @@ export async function POST(request) {
     const profiles = submissions.map((s, i) => ({
       index: i + 1,
       name: s.fullName,
-      studentId: s.studentId,
       aiExperience: s.aiExperience,
       preferredRole: s.preferredRole,
       skills: s.skills,
@@ -69,7 +68,7 @@ Return ONLY a valid JSON object with this exact structure:
     {
       "groupNumber": 1,
       "members": [
-        { "name": "...", "studentId": "...", "role": "...", "aiExperience": "..." }
+        { "name": "...", "role": "...", "aiExperience": "..." }
       ],
       "rationale": "Brief 1–2 sentence explanation of why this group works well",
       "industryFocus": "Suggested industry focus based on member interests"

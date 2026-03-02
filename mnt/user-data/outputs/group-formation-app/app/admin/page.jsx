@@ -143,7 +143,6 @@ export default function AdminPage() {
     const matchesSearch =
       !searchTerm ||
       s.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.studentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.industryInterest?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterExperience === 'All' || s.aiExperience === filterExperience;
     return matchesSearch && matchesFilter;
@@ -285,7 +284,7 @@ export default function AdminPage() {
             <input
               className="au-input flex-1 min-w-48"
               style={{ maxWidth: '320px' }}
-              placeholder="Search by name, ID, or industry..."
+              placeholder="Search by name or industry..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -310,20 +309,20 @@ export default function AdminPage() {
 
           <div className="space-y-3">
             {filteredSubmissions.map((s) => (
+              (() => {
+                const rowId = s.respondentId || s.fullName;
+                return (
               <div
-                key={s.studentId}
+                key={rowId}
                 className="card"
                 style={{ padding: '1rem 1.25rem', cursor: 'pointer' }}
-                onClick={() => setExpandedStudent(expandedStudent === s.studentId ? null : s.studentId)}
+                onClick={() => setExpandedStudent(expandedStudent === rowId ? null : rowId)}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 flex-wrap">
                       <span className="font-bold" style={{ fontFamily: 'Arial, sans-serif', color: '#140F50' }}>
                         {s.fullName}
-                      </span>
-                      <span className="text-xs" style={{ color: '#9E97C4', fontFamily: 'Georgia, serif' }}>
-                        {s.studentId}
                       </span>
                       <ExperienceBadge level={s.aiExperience} />
                       <span
@@ -338,17 +337,13 @@ export default function AdminPage() {
                     </p>
                   </div>
                   <div className="text-xs shrink-0" style={{ color: '#C4BBE8', fontFamily: 'Georgia, serif' }}>
-                    {expandedStudent === s.studentId ? '▲' : '▼'}
+                    {expandedStudent === rowId ? '▲' : '▼'}
                   </div>
                 </div>
 
-                {expandedStudent === s.studentId && (
+                {expandedStudent === rowId && (
                   <div className="mt-4 pt-4" style={{ borderTop: '1px solid #F0ECF8' }}>
                     <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="text-xs font-bold mb-2" style={{ fontFamily: 'Arial, sans-serif', color: '#856BFF', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Contact</h4>
-                        <p className="text-sm" style={{ fontFamily: 'Georgia, serif', color: '#3B3570' }}>{s.email}</p>
-                      </div>
                       <div>
                         <h4 className="text-xs font-bold mb-2" style={{ fontFamily: 'Arial, sans-serif', color: '#856BFF', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI Tools Used</h4>
                         <p className="text-sm" style={{ fontFamily: 'Georgia, serif', color: '#3B3570' }}>{s.aiTools?.join(', ') || 'None selected'}</p>
@@ -388,6 +383,8 @@ export default function AdminPage() {
                   </div>
                 )}
               </div>
+                );
+              })()
             ))}
           </div>
         </div>
@@ -489,7 +486,7 @@ export default function AdminPage() {
 
                     <div className="space-y-2 mb-3">
                       {group.members.map((member) => (
-                        <div key={member.studentId} className="flex items-center gap-2">
+                        <div key={`${member.name}-${member.role || member.aiExperience || 'member'}`} className="flex items-center gap-2">
                           <div
                             className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
                             style={{ backgroundColor: '#140F50', color: 'white', fontFamily: 'Arial, sans-serif' }}
@@ -499,9 +496,6 @@ export default function AdminPage() {
                           <div className="flex-1 min-w-0">
                             <span className="text-sm font-bold" style={{ fontFamily: 'Arial, sans-serif', color: '#140F50' }}>
                               {member.name}
-                            </span>
-                            <span className="text-xs ml-1.5" style={{ color: '#9E97C4', fontFamily: 'Georgia, serif' }}>
-                              {member.studentId}
                             </span>
                           </div>
                           <div className="flex gap-1 shrink-0">

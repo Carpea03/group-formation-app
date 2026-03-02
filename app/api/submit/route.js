@@ -4,8 +4,6 @@ import { getRedisClient } from '../../../lib/redis';
 function validateSubmission(data) {
   if (!data || typeof data !== 'object') return 'Invalid request payload.';
   if (!data.fullName?.trim()) return 'Please enter your full name.';
-  if (!data.studentId?.trim()) return 'Please enter your student ID.';
-  if (!data.email?.includes('@')) return 'Please enter a valid email address.';
   if (!data.aiExperience) return 'Please select your experience level.';
   if (!Array.isArray(data.skills) || data.skills.length === 0) return 'Please select at least one skill.';
   if (!data.preferredRole) return 'Please select your preferred role.';
@@ -26,8 +24,7 @@ export async function POST(request) {
 
     const submission = {
       fullName: data.fullName.trim(),
-      studentId: data.studentId.trim(),
-      email: data.email.trim(),
+      respondentId: data.fullName.trim().toLowerCase(),
       aiExperience: data.aiExperience,
       aiTools: Array.isArray(data.aiTools) ? data.aiTools : [],
       skills: data.skills,
@@ -42,7 +39,8 @@ export async function POST(request) {
     };
 
     const redis = await getRedisClient();
-    await redis.hSet('submissions', submission.studentId.toLowerCase(), JSON.stringify(submission));
+    const submissionKey = data.fullName.trim().toLowerCase();
+    await redis.hSet('submissions', submissionKey, JSON.stringify(submission));
 
     return NextResponse.json({ success: true });
   } catch (error) {

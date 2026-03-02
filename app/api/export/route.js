@@ -29,8 +29,6 @@ export async function GET(request) {
 
     const headers = [
       'fullName',
-      'studentId',
-      'email',
       'aiExperience',
       'aiTools',
       'skills',

@@ -128,7 +128,6 @@ export default function AdminPage() {
   };
 
   const handleExport = () => {
-    window.open(`/api/export?nocache=${Date.now()}`, '_blank', '');
     fetch('/api/export', { headers: { 'x-admin-password': password } })
       .then(r => r.blob())
       .then(blob => {

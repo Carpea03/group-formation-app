@@ -7,7 +7,7 @@ A Next.js web app that collects student survey responses and uses Claude AI to g
 ## Features
 
 - **4-step student survey** — collects AI experience, skills, availability, industry interests, and working style
-- **Vercel KV (Redis)** — stores all submissions serverlessly; handles duplicate submissions gracefully
+- **Vercel Redis** — stores all submissions serverlessly; handles duplicate submissions gracefully
 - **Password-protected admin dashboard** — view all responses, filter by experience level, expand individual profiles
 - **AI group generation** — sends all profiles to Claude and receives balanced group suggestions (groups of 3–4)
 - **CSV export** — download all responses for offline use
@@ -18,7 +18,7 @@ A Next.js web app that collects student survey responses and uses Claude AI to g
 ## Tech Stack
 
 - Next.js 14 (App Router)
-- Vercel KV (`@vercel/kv`)
+- Redis (`redis`)
 - Tailwind CSS
 - Claude API (claude-sonnet-4-20250514)
 
@@ -38,13 +38,13 @@ vercel
 
 Or connect your GitHub repo at vercel.com and import the project.
 
-### 2. Add Vercel KV
+### 2. Add Vercel Redis
 
 In your Vercel dashboard:
-1. Go to **Storage** → **Create Database** → **KV**
-2. Name it (e.g. `group-formation-kv`)
+1. Go to **Storage** → **Create Database** → **Redis**
+2. Name it (e.g. `group-formation-redis`)
 3. Click **Connect to project** and select your project
-4. Vercel automatically adds the `KV_URL`, `KV_REST_API_URL`, and `KV_REST_API_TOKEN` environment variables
+4. Vercel automatically adds the `REDIS_URL` environment variable
 
 ### 3. Set environment variables
 
@@ -55,7 +55,7 @@ In Vercel dashboard → **Settings** → **Environment Variables**, add:
 | `ADMIN_PASSWORD` | Your chosen admin password |
 | `ANTHROPIC_API_KEY` | Your Anthropic API key (from console.anthropic.com) |
 
-> The KV variables are added automatically — do **not** add them manually.
+> The Redis variable is added automatically — do **not** add it manually.
 
 ### 4. Deploy
 

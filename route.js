@@ -1,5 +1,26 @@
-import { kv } from '@vercel/kv';
+import { createClient } from 'redis';
 import { NextResponse } from 'next/server';
+
+let redisClient;
+
+async function getRedisClient() {
+  if (!process.env.REDIS_URL) {
+    throw new Error('Missing REDIS_URL environment variable');
+  }
+
+  if (!redisClient) {
+    redisClient = createClient({ url: process.env.REDIS_URL });
+    redisClient.on('error', (error) => {
+      console.error('Redis client error:', error);
+    });
+  }
+
+  if (!redisClient.isOpen) {
+    await redisClient.connect();
+  }
+
+  return redisClient;
+}
 
 export async function POST(request) {
   const authHeader = request.headers.get('x-admin-password');
@@ -8,8 +29,10 @@ export async function POST(request) {
   }
 
   try {
+    const redis = await getRedisClient();
+
     // Fetch all submissions
-    const all = await kv.hgetall('submissions');
+    const all = await redis.hGetAll('submissions');
     if (!all) return NextResponse.json({ error: 'No submissions found' }, { status: 400 });
 
     const submissions = Object.values(all).map((v) => {
@@ -103,7 +126,7 @@ Do not include any text outside the JSON object.`;
     }
 
     // Store the generated groups in KV
-    await kv.set('generated_groups', JSON.stringify({
+    await redis.set('generated_groups', JSON.stringify({
       groups,
       generatedAt: new Date().toISOString(),
       totalStudents,
@@ -124,7 +147,8 @@ export async function GET(request) {
   }
 
   try {
-    const stored = await kv.get('generated_groups');
+    const redis = await getRedisClient();
+    const stored = await redis.get('generated_groups');
     if (!stored) return NextResponse.json({ groups: null });
     const data = typeof stored === 'string' ? JSON.parse(stored) : stored;
     return NextResponse.json(data);

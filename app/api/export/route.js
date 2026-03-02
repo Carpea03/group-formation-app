@@ -29,6 +29,7 @@ export async function GET(request) {
 
     const headers = [
       'fullName',
+      'workshop',
       'aiExperience',
       'aiTools',
       'skills',

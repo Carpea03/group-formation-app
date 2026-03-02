@@ -4,6 +4,7 @@ import { getRedisClient } from '../../../lib/redis';
 function validateSubmission(data) {
   if (!data || typeof data !== 'object') return 'Invalid request payload.';
   if (!data.fullName?.trim()) return 'Please enter your full name.';
+  if (!data.workshop || !['Wednesday 2–5pm', 'Friday 8–11am'].includes(data.workshop)) return 'Please select your workshop.';
   if (!data.aiExperience) return 'Please select your experience level.';
   if (!Array.isArray(data.skills) || data.skills.length === 0) return 'Please select at least one skill.';
   if (!data.preferredRole) return 'Please select your preferred role.';
@@ -25,6 +26,7 @@ export async function POST(request) {
     const submission = {
       fullName: data.fullName.trim(),
       respondentId: data.fullName.trim().toLowerCase(),
+      workshop: data.workshop,
       aiExperience: data.aiExperience,
       aiTools: Array.isArray(data.aiTools) ? data.aiTools : [],
       skills: data.skills,

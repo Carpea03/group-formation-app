@@ -36,6 +36,11 @@ const AVAILABILITY = [
   'Very flexible — most times work for me',
 ];
 
+const WORKSHOPS = [
+  'Wednesday 2–5pm',
+  'Friday 8–11am',
+];
+
 const AI_TOOLS = [
   'ChatGPT',
   'Claude',
@@ -159,6 +164,7 @@ export default function SurveyPage() {
   const [form, setForm] = useState({
     // Step 1
     fullName: '',
+    workshop: '',
     // Step 2
     aiExperience: '',
     aiTools: [],
@@ -183,6 +189,7 @@ export default function SurveyPage() {
     const newErrors = {};
     if (step === 1) {
       if (!form.fullName.trim()) newErrors.fullName = 'Please enter your full name.';
+      if (!form.workshop) newErrors.workshop = 'Please select your workshop.';
     }
     if (step === 2) {
       if (!form.aiExperience) newErrors.aiExperience = 'Please select your experience level.';
@@ -298,6 +305,18 @@ export default function SurveyPage() {
                   onChange={(e) => update('fullName', e.target.value)}
                 />
                 {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+              </div>
+
+              <div>
+                <label className="block mb-3 text-sm font-bold" style={{ fontFamily: 'Arial, sans-serif', color: '#140F50' }}>
+                  Which workshop are you in? <span style={{ color: '#856BFF' }}>*</span>
+                </label>
+                <RadioGroup
+                  selected={form.workshop}
+                  onChange={(v) => update('workshop', v)}
+                  options={WORKSHOPS}
+                />
+                {errors.workshop && <p className="text-red-500 text-xs mt-1">{errors.workshop}</p>}
               </div>
 
             </div>

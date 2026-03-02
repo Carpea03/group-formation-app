@@ -324,6 +324,12 @@ export default function AdminPage() {
                       <span className="font-bold" style={{ fontFamily: 'Arial, sans-serif', color: '#140F50' }}>
                         {s.fullName}
                       </span>
+                      <span
+                        className="text-xs px-2 py-0.5 rounded-full"
+                        style={{ backgroundColor: '#EAF2FF', color: '#1449FF', fontFamily: 'Arial, sans-serif', fontWeight: 'bold' }}
+                      >
+                        {s.workshop || 'Workshop not set'}
+                      </span>
                       <ExperienceBadge level={s.aiExperience} />
                       <span
                         className="text-xs px-2 py-0.5 rounded-full"
@@ -344,6 +350,10 @@ export default function AdminPage() {
                 {expandedStudent === rowId && (
                   <div className="mt-4 pt-4" style={{ borderTop: '1px solid #F0ECF8' }}>
                     <div className="grid sm:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="text-xs font-bold mb-2" style={{ fontFamily: 'Arial, sans-serif', color: '#856BFF', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Workshop</h4>
+                        <p className="text-sm" style={{ fontFamily: 'Georgia, serif', color: '#3B3570' }}>{s.workshop || 'Not provided'}</p>
+                      </div>
                       <div>
                         <h4 className="text-xs font-bold mb-2" style={{ fontFamily: 'Arial, sans-serif', color: '#856BFF', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI Tools Used</h4>
                         <p className="text-sm" style={{ fontFamily: 'Georgia, serif', color: '#3B3570' }}>{s.aiTools?.join(', ') || 'None selected'}</p>

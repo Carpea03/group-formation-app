@@ -36,6 +36,7 @@ export async function POST(request) {
     const profiles = submissions.map((s, i) => ({
       index: i + 1,
       name: s.fullName,
+      workshop: s.workshop,
       aiExperience: s.aiExperience,
       preferredRole: s.preferredRole,
       skills: s.skills,
@@ -56,11 +57,12 @@ Here are the student profiles:
 ${JSON.stringify(profiles, null, 2)}
 
 Your task is to create balanced groups following these priorities (in order):
-1. Mix AI experience levels — avoid placing all Beginners or all Experts together
-2. Balance preferred roles — each group ideally has at least one Coordinator and one Researcher/Creative
-3. Align on availability — group members should have overlapping available times
-4. Match industry interests where possible — students with similar industry interests work better together
-5. Respect peer preferences — honour any stated preferences/exclusions where feasible
+1. Keep students in the same workshop together (Wednesday 2–5pm or Friday 8–11am)
+2. Mix AI experience levels — avoid placing all Beginners or all Experts together
+3. Balance preferred roles — each group ideally has at least one Coordinator and one Researcher/Creative
+4. Align on availability — group members should have overlapping available times
+5. Match industry interests where possible — students with similar industry interests work better together
+6. Respect peer preferences — honour any stated preferences/exclusions where feasible
 
 Return ONLY a valid JSON object with this exact structure:
 {
